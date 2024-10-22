@@ -4,7 +4,7 @@ import PaymentIcons from "./PaymentIcons";
 
 export default function Footer() {
   return (
-    <div>
+    <div className="mb-10">
       <hr className="h-px my-7 bg-[rgba(var(--color-foreground),0.1)] border-0 dark:bg-[rgba(var(--color-foreground),0.2)]" />
       <div className="text-[rgba(var(--color-foreground),1)] flex flex-col justify-center items-center gap-4 ">
         <p className="">Subscribe to our emails</p>

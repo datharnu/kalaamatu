@@ -3,7 +3,6 @@ import Announcement from "./components/announcement";
 import Navbar from "@/components/shared/navbar";
 import HeroPage from "./components/hero";
 import NewArrivals from "./components/new-arrivals";
-import Footer from "@/components/shared/footer";
 
 export default function Homepage() {
   return (
@@ -12,7 +11,6 @@ export default function Homepage() {
       <Navbar />
       <HeroPage />
       <NewArrivals />
-      <Footer />
     </div>
   );
 }
