@@ -23,7 +23,9 @@ const config: Config = {
         slideIn: "slideIn 0.5s ease-out",
         scroll: "scroll 20s linear infinite",
       },
-      backgroundImage: {},
+      backgroundImage: {
+        heroImg: "url('/k100.webp')",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

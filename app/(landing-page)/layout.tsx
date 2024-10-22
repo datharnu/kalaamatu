@@ -12,7 +12,7 @@ export default function LandingPagelayout({
   const [showChatbox, setShowChatbox] = useState(false);
 
   const handleSendMessage = (message: string) => {
-    const phoneNumber = "+2349065434849"; // Replace with your actual WhatsApp number
+    const phoneNumber = "+2347589351101"; // Replace with your actual WhatsApp number
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -21,8 +21,9 @@ export default function LandingPagelayout({
 
   return (
     <CartProvider>
-      <Navbar />
-      <main className="bg-slate-100 pb-10">{children}</main>
+      <main className="gradient gradient min-h-screen w-full pb-10">
+        {children}
+      </main>
       <div className="fixed bottom-10 right-10">
         <a
           href="#"

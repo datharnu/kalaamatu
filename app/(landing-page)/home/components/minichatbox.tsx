@@ -30,7 +30,7 @@ const MiniChatbox: React.FC<MiniChatboxProps> = ({
           </span>
 
           <div className="flex flex-col">
-            <h4 className="text-[15px] font-bold">MyShop</h4>
+            <h4 className="text-[15px] font-bold">Kalaamatu</h4>
             <span className="text-[12px]">Typically replies within 1 hour</span>
           </div>
         </div>
@@ -54,7 +54,7 @@ const MiniChatbox: React.FC<MiniChatboxProps> = ({
       <div className="p-3 h-48  overflow-y-auto">
         {/* Chat content can be dynamically added here */}
         <div className="bg-white h-24 py-2 px-3 w-[60%] mt-2 mx-2 rounded-r-xl rounded-bl-3xl">
-          <p className="text-[13px] text-secondary">Rentville</p>
+          <p className="text-[13px] text-secondary">Kalaamatu</p>
           <span className="text-xs">Hello there! 🤝</span>
           <p className="text-xs">How can we help?</p>
           <div className=" flex justify-end items-center gap-2 pl-1">

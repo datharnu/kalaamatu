@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-background: 255, 251, 249;
+  --gradient-background: #fffbf9;
+  --color-foreground: 137, 97, 95;
+  --color-background-contrast: 255, 166, 122;
+  --color-shadow: 18, 18, 18;
+  --color-button: 18, 18, 18;
+  --color-button-text: 255, 255, 255;
+  --color-secondary-button: 255, 251, 249;
+  --color-secondary-button-text: 18, 18, 18;
+  --color-link: 18, 18, 18;
+  --color-badge-foreground: 137, 97, 95;
+  --color-badge-background: 255, 251, 249;
+  --color-badge-border: 137, 97, 95;
+  --payment-terms-background-color: rgb(255 251 249);
+}
+
+.color-scheme-1 {
+  --color-background: 255, 251, 249;
+  --gradient-background: #fffbf9;
+  --color-foreground: 137, 97, 95;
+  --color-background-contrast: 255, 166, 122;
+  --color-shadow: 18, 18, 18;
+  --color-button: 18, 18, 18;
+  --color-button-text: 255, 255, 255;
+  --color-secondary-button: 255, 251, 249;
+  --color-secondary-button-text: 18, 18, 18;
+  --color-link: 18, 18, 18;
+  --color-badge-foreground: 137, 97, 95;
+  --color-badge-background: 255, 251, 249;
+  --color-badge-border: 137, 97, 95;
+  --payment-terms-background-color: rgb(255 251 249);
+}
+
+.gradient {
+  background: var(--gradient-background);
+  background-attachment: fixed;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
