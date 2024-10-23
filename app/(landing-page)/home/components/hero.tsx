@@ -35,7 +35,11 @@ export default function HeroPage() {
       {/* Content */}
       <div className="relative flex items-center justify-center h-full">
         <div className="text-white md:mt-72 text-center z-10">
-          <h2 className="text-4xl md:text-5xl">Just Launched</h2>
+          {/* <h2 className="text-4xl md:text-5xl">Just Launched</h2> */}
+          <h2 className="text-lg md:text-2xl lg:5xl">
+            Authentic clothing Brand you can trust Huge collection to choose
+            from. High-end collection.
+          </h2>
           <div className="flex justify-center mt-7">
             <Button
               variant="outline"

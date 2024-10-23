@@ -7,8 +7,6 @@ import NewArrivals from "./components/new-arrivals";
 export default function Homepage() {
   return (
     <div>
-      <Announcement />
-      <Navbar />
       <HeroPage />
       <NewArrivals />
     </div>

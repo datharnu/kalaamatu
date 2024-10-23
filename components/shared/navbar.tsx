@@ -32,7 +32,7 @@ export default function Navbar() {
       )}
 
       <div className="w-full relative">
-        <div className="max-w-screen-xl lg:mx-72 mx-8 flex items-center justify-between mt-5 mb-10">
+        <div className="max-w-screen-xl lg:mx-72 mx-8 flex items-center justify-between mt-5 mb-9">
           <div>
             <NavbarIcon
               className="size-5 lg:hidden cursor-pointer"
@@ -137,6 +137,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      <hr className="my-2 border-gray-200" />
     </>
   );
 }
