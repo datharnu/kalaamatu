@@ -25,7 +25,7 @@ export default function HeroPage() {
         loop
         playsInline
       >
-        <source src="/video2.mp4" type="video/mp4" />
+        <source src="/boots.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -36,9 +36,8 @@ export default function HeroPage() {
       <div className="relative flex items-center justify-center h-full">
         <div className="text-white md:mt-72 text-center z-10">
           {/* <h2 className="text-4xl md:text-5xl">Just Launched</h2> */}
-          <h2 className="text-lg md:text-2xl lg:5xl">
-            Authentic clothing Brand you can trust Huge collection to choose
-            from. High-end collection.
+          <h2 className="text-lg md:text-2xl lg:5xl font-semibold">
+           ALLYS CLOSET/ NEW & PREOWNED BOOT/ WINTER JACKETS/ LEATHER ITEMS
           </h2>
           <div className="flex justify-center mt-7">
             <Button

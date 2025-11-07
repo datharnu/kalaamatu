@@ -54,7 +54,7 @@ const ProductCard = ({ product }: any) => {
       <div className="mt-3 space-y-2 text-[rgba(var(--color-foreground),1)]">
         <p className="text-[0.8rem] tracking-wider">{product.title}</p>
         <p>
-          ${product.price} <span>AUD</span>
+          ₦{product.price} <span>NGN</span>
         </p>
       </div>
     </div>

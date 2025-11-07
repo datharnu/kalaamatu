@@ -6,8 +6,8 @@ import { text } from "stream/consumers";
 
 const ShippingAnnouncements = () => {
   const announcements = [
-    "Free AU shipping on all orders",
-    "Welcome to Kalaamatu",
+    "Free Lagos shipping on all orders",
+    "Welcome to Boots and More!",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

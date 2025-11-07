@@ -20,8 +20,8 @@ interface ProductData {
 export const ProductDatas: ProductData[] = [
   {
     id: 1,
-    title: "Kalaamatu - hat Ivory",
-    price: "53.00",
+    title: "Boots.and.more - hat Ivory",
+    price: "5300.00",
     description: "Y-UC Mixer",
     category: "Electronic",
     image: image1,
@@ -29,8 +29,8 @@ export const ProductDatas: ProductData[] = [
   },
   {
     id: 2,
-    title: "Kalaamatu - hat Mulberry",
-    price: "24.00",
+    title: "Boots.and.more - hat Mulberry",
+    price: "2400.00",
     description: "Y-UC Mixer",
     category: "Electronic",
     image: stan2,
@@ -38,8 +38,8 @@ export const ProductDatas: ProductData[] = [
   },
   {
     id: 3,
-    title: "Kalaamatu - hat Kinky",
-    price: "59.00",
+    title: "Boots.and.more - hat Kinky",
+    price: "5900.00",
     description: "Y-UC Mixer",
     category: "Electronic",
     image: stan1,
@@ -47,8 +47,8 @@ export const ProductDatas: ProductData[] = [
   },
   {
     id: 4,
-    title: "Kalaamatu - hat Mulberry",
-    price: "18.00",
+    title: "Boots.and.more - hat Mulberry",
+    price: "1800.00",
     description: "Y-UC Mixer",
     category: "Electronic",
 

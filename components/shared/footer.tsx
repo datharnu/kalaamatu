@@ -18,7 +18,7 @@ export default function Footer() {
       <PaymentIcons />
 
       <p className="text-[rgba(var(--color-foreground),0.75)] text-xs text-center tracking-wider mt-5">
-        © 2024, Kalaamatu Powered by Rentville
+        © 2024, Boots.and.more Powered by Rentville
       </p>
     </div>
   );
