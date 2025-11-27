@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/shared/footer";
 import Navbar from "@/components/shared/navbar";
 import Announcement from "./(landing-page)/home/components/announcement";
+import { Providers } from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,11 +36,13 @@ export default function RootLayout({
           color: "rgb(var(--color-foreground))",
         }}
       >
-        <Announcement />
-        <Navbar />
-        {children}
+        <Providers>
+          <Announcement />
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
-      <Footer />
     </html>
   );
 }

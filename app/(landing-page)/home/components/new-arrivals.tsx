@@ -2,6 +2,7 @@
 import { ProductDatas } from "@/app/utils/ProductData";
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const NewArrivals = () => {
   return (
@@ -24,7 +25,7 @@ const ProductCard = ({ product }: any) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div className="mb-3">
+    <Link href={`/products/${product.id}`} className="mb-3 block group">
       <div
         className="relative"
         onMouseEnter={() => setIsHovering(true)}
@@ -52,12 +53,14 @@ const ProductCard = ({ product }: any) => {
         )}
       </div>
       <div className="mt-3 space-y-2 text-[rgba(var(--color-foreground),1)]">
-        <p className="text-[0.8rem] tracking-wider">{product.title}</p>
+        <p className="text-[0.8rem] tracking-wider group-hover:opacity-80 transition-opacity">
+          {product.title}
+        </p>
         <p>
           ₦{product.price} <span>NGN</span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 

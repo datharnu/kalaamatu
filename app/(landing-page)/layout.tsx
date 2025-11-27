@@ -1,7 +1,6 @@
 "use client";
 import Navbar from "@/components/shared/navbar";
 import React, { useState } from "react";
-import { CartProvider } from "../context/cart-context";
 import MiniChatbox from "./home/components/minichatbox";
 
 export default function LandingPagelayout({
@@ -20,7 +19,7 @@ export default function LandingPagelayout({
   };
 
   return (
-    <CartProvider>
+    <>
       <main className="gradient gradient min-h-screen w-full pb-10">
         {children}
       </main>
@@ -51,6 +50,6 @@ export default function LandingPagelayout({
           />
         )}
       </div>
-    </CartProvider>
+    </>
   );
 }

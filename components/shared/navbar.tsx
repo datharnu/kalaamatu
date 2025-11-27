@@ -1,14 +1,19 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import NavbarIcon from "../icons/navbaricon";
 import SearchIcon from "../icons/searchicon";
 import CartIcon from "../icons/carticon";
 import AccountIcon from "../icons/accounticon";
 import { navlinks } from "@/app/utils/Navlinks";
+import { useCart } from "@/app/context/cart-context";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Home");
+  const { cart } = useCart();
+
+  const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   const handleNavbarClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -83,7 +88,14 @@ export default function Navbar() {
           <div className="flex items-center gap-2 md:gap-4">
             <SearchIcon className="size-5" />
             <AccountIcon className="size-5 hidden md:block" />
-            <CartIcon className="size-10" />
+            <Link href="/cart" className="relative">
+              <CartIcon className="size-10" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItemCount > 9 ? "9+" : cartItemCount}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
         {/* <hr className="border-gray-200" /> */}

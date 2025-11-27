@@ -2,6 +2,7 @@
 import { ProductDatas } from "@/app/utils/ProductData";
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { MoveRight, SlidersHorizontal, X } from "lucide-react";
 import CloseIcon from "@/components/icons/closenav";
 
@@ -106,9 +107,15 @@ const ShopPage = () => {
 };
 
 const ProductCard = ({ product }: any) => {
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <div className="mb-3">
-      <div className="relative">
+    <Link href={`/products/${product.id}`} className="mb-3 block group">
+      <div
+        className="relative"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         {/* Base Image */}
         <Image
           src={product.image}
@@ -116,23 +123,28 @@ const ProductCard = ({ product }: any) => {
           width={400}
           height={400}
           className="transition-opacity duration-300 ease-in-out"
+          style={{ opacity: isHovering ? 0 : 1 }}
         />
 
+        {/* Hover Image */}
         <Image
           src={product.additionalImages[0] || product.image}
           alt={`${product.title} hover`}
           width={400}
           height={400}
           className="absolute top-0 left-0 transition-opacity duration-300 ease-in-out"
+          style={{ opacity: isHovering ? 1 : 0 }}
         />
       </div>
       <div className="mt-3 space-y-2 text-[rgba(var(--color-foreground),1)]">
-        <p className="text-[0.8rem] tracking-wider">{product.title}</p>
+        <p className="text-[0.8rem] tracking-wider group-hover:opacity-80 transition-opacity">
+          {product.title}
+        </p>
         <p>
           ${product.price} <span>AUD</span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
