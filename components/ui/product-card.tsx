@@ -11,6 +11,7 @@ interface ProductCardProps {
         image: string;
         additionalImages: string[];
         category: string;
+        discountPrice?: string | number | null;
     };
 }
 
@@ -59,7 +60,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     {product.title}
                 </h3>
                 <div className="text-sm font-medium text-gray-100">
-                    {formatPrice(product.price)}
+                    {product.discountPrice ? (
+                        <div className="flex items-center gap-2">
+                            <span className="text-red-500 font-bold">{formatPrice(product.discountPrice)}</span>
+                            <span className="text-gray-400 line-through text-xs font-normal opacity-80 decoration-gray-500">{formatPrice(product.price)}</span>
+                        </div>
+                    ) : (
+                        formatPrice(product.price)
+                    )}
                 </div>
             </div>
         </Link>

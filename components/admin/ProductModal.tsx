@@ -31,6 +31,9 @@ interface Product {
     category: string;
     image: string | File;
     additionalImages: (string | File)[];
+    costPrice?: string;
+    quantity?: number;
+    discountPrice?: string;
 }
 
 interface ProductModalProps {
@@ -61,6 +64,9 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
         category: '',
         image: '',
         additionalImages: [],
+        costPrice: '',
+        quantity: 0,
+        discountPrice: '',
     });
     const [imagePreview, setImagePreview] = useState<string>('');
     const [additionalPreviews, setAdditionalPreviews] = useState<string[]>([]);
@@ -76,6 +82,9 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
                 category: product.category,
                 image: product.image,
                 additionalImages: product.additionalImages || [],
+                costPrice: product.costPrice || '',
+                quantity: product.quantity || 0,
+                discountPrice: product.discountPrice || '',
             });
             setImagePreview(typeof product.image === 'string' ? product.image : '');
             setAdditionalPreviews(
@@ -89,6 +98,9 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
                 category: '',
                 image: '',
                 additionalImages: [],
+                costPrice: '',
+                quantity: 0,
+                discountPrice: '',
             });
             setImagePreview('');
             setAdditionalPreviews([]);
@@ -119,6 +131,9 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
             data.append('price', formData.price);
             data.append('description', formData.description);
             data.append('category', formData.category);
+            data.append('costPrice', formData.costPrice || '0');
+            data.append('quantity', (formData.quantity || 0).toString());
+            if (formData.discountPrice) data.append('discountPrice', formData.discountPrice);
 
             if (formData.image instanceof File) {
                 data.append('image', formData.image);
@@ -187,7 +202,7 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[900px] bg-white max-h-[85vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[900px] bg-white text-black max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{product?.id ? 'Edit Product' : 'Add New Product'}</DialogTitle>
                     <DialogDescription>
@@ -282,7 +297,7 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="price">Price (₦)</Label>
+                                    <Label htmlFor="price">Selling Price (₦)</Label>
                                     <Input
                                         id="price"
                                         type="number"
@@ -303,13 +318,56 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
-                                        <SelectContent>
+                                        <SelectContent className='text-black bg-white'>
                                             {CATEGORIES.map((cat) => (
                                                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                 </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                <div className="space-y-2">
+                                    <Label htmlFor="costPrice" className="text-gray-600">Cost Price (₦) <span className="text-xs text-gray-400 font-normal">(Admin Only)</span></Label>
+                                    <Input
+                                        id="costPrice"
+                                        type="number"
+                                        value={formData.costPrice}
+                                        onChange={(e) => setFormData({ ...formData, costPrice: e.target.value })}
+                                        placeholder="0.00"
+                                        min="0"
+                                        step="0.01"
+                                        className="bg-white"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="quantity" className="text-gray-600">Stock Quantity</Label>
+                                    <Input
+                                        id="quantity"
+                                        type="number"
+                                        value={formData.quantity}
+                                        onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) || 0 })}
+                                        placeholder="0"
+                                        min="0"
+                                        className="bg-white"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="discountPrice" className="text-gray-600">Discount Price (₦) <span className="text-xs text-gray-400 font-normal">(Optional)</span></Label>
+                                <Input
+                                    id="discountPrice"
+                                    type="number"
+                                    value={formData.discountPrice}
+                                    onChange={(e) => setFormData({ ...formData, discountPrice: e.target.value })}
+                                    placeholder="0.00"
+                                    min="0"
+                                    step="0.01"
+                                />
+                                <p className="text-xs text-gray-500">If set, this will be the price shown to customers as the "deal" price.</p>
                             </div>
 
                             <div className="space-y-2">

@@ -1,6 +1,8 @@
 "use client";
 import { useCart } from "@/app/context/cart-context";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, CreditCard, Lock } from "lucide-react";
@@ -41,13 +43,37 @@ export default function CheckoutPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle checkout logic here
-    console.log("Checkout submitted:", formData);
-    alert("Order placed successfully! (This is a demo)");
-    clearCart();
-    // Redirect to success page or home
+    setIsSubmitting(true);
+
+    try {
+      const orderData = {
+        ...formData,
+        customerName: `${formData.firstName} ${formData.lastName}`,
+        items: cart.map(item => ({
+          id: item.id,
+          quantity: item.quantity,
+          // price sent to backend but backend should re-verify
+        }))
+      };
+
+      await api.post('/orders', orderData);
+
+      clearCart();
+      alert("Order placed successfully!");
+      router.push('/');
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      alert(error.response?.data?.error || "Failed to place order. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (cart.length === 0) {
@@ -280,9 +306,10 @@ export default function CheckoutPage() {
 
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full py-6 text-lg font-medium tracking-wide bg-[rgba(var(--color-foreground),1)] text-[rgba(var(--color-background),1)] hover:opacity-90 transition-opacity"
               >
-                Complete Order
+                {isSubmitting ? "Processing..." : "Complete Order"}
               </Button>
             </div>
           </div>

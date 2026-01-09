@@ -17,6 +17,8 @@ interface Product {
   category: string;
   image: string;
   additionalImages: string[];
+  discountPrice?: string | null;
+  quantity: number;
 }
 
 interface ProductDetailClientProps {
@@ -24,24 +26,44 @@ interface ProductDetailClientProps {
 }
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+
+  const cartItem = cart.find(item => item.id === product.id);
+  const inCartQuantity = cartItem ? cartItem.quantity : 0;
+  const availableStock = product.quantity - inCartQuantity;
+  const isOutOfStock = product.quantity === 0;
+  const hasReachedLimit = availableStock <= 0;
 
   const allImages = [product.image, ...product.additionalImages];
   const selectedImage = allImages[selectedImageIndex] || product.image;
 
   const handleAddToCart = () => {
+    if (quantity > availableStock) {
+      toast.error(`Only ${availableStock} items left in stock`);
+      return;
+    }
+
+    let effectivePrice = parseFloat(product.price);
+    if (product.discountPrice) {
+      const dp = parseFloat(product.discountPrice);
+      if (!isNaN(dp) && dp > 0) {
+        effectivePrice = dp;
+      }
+    }
+
     for (let i = 0; i < quantity; i++) {
       addToCart({
         id: product.id,
         title: product.title,
-        price: parseFloat(product.price),
+        price: effectivePrice,
         image: product.image,
         category: product.category,
       });
       toast.success(`${product.title} added to cart`);
     }
+    setQuantity(1);
   };
 
   const decreaseQuantity = () => {
@@ -51,7 +73,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   };
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    if (quantity < availableStock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error("Max available stock reached");
+    }
   };
 
   return (
@@ -109,9 +135,22 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <h1 className="text-3xl md:text-4xl font-medium mb-4 text-[rgba(var(--color-foreground),1)]">
               {product.title}
             </h1>
-            <p className="text-2xl md:text-3xl font-semibold text-[rgba(var(--color-foreground),1)]">
-              {formatPrice(product.price)}
-            </p>
+            <div className="flex items-center gap-3">
+              {product.discountPrice ? (
+                <>
+                  <p className="text-2xl md:text-3xl font-bold text-red-500">
+                    {formatPrice(product.discountPrice)}
+                  </p>
+                  <p className="text-xl md:text-2xl font-medium text-[rgba(var(--color-foreground),0.5)] line-through">
+                    {formatPrice(product.price)}
+                  </p>
+                </>
+              ) : (
+                <p className="text-2xl md:text-3xl font-semibold text-[rgba(var(--color-foreground),1)]">
+                  {formatPrice(product.price)}
+                </p>
+              )}
+            </div>
           </div>
 
           {product.description && (
@@ -127,10 +166,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <span className="text-sm font-medium text-[rgba(var(--color-foreground),0.7)]">
               Quantity:
             </span>
-            <div className="flex items-center border border-[rgba(var(--color-foreground),0.2)] rounded-lg">
+            <div className={`flex items-center border border-[rgba(var(--color-foreground),0.2)] rounded-lg ${isOutOfStock || hasReachedLimit ? 'opacity-50 pointer-events-none' : ''}`}>
               <button
                 onClick={decreaseQuantity}
-                className="p-2 hover:bg-[rgba(var(--color-foreground),0.05)] transition-colors"
+                disabled={isOutOfStock || hasReachedLimit || quantity <= 1}
+                className="p-2 hover:bg-[rgba(var(--color-foreground),0.05)] transition-colors disabled:opacity-50"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
@@ -140,7 +180,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </span>
               <button
                 onClick={increaseQuantity}
-                className="p-2 hover:bg-[rgba(var(--color-foreground),0.05)] transition-colors"
+                disabled={isOutOfStock || hasReachedLimit || quantity >= availableStock}
+                className="p-2 hover:bg-[rgba(var(--color-foreground),0.05)] transition-colors disabled:opacity-50"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
@@ -151,10 +192,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           {/* Add to Cart Button */}
           <Button
             onClick={handleAddToCart}
-            className="w-full py-6 text-lg font-medium tracking-wide bg-[rgba(var(--color-foreground),1)] text-[rgba(var(--color-background),1)] hover:opacity-90 transition-opacity"
+            disabled={isOutOfStock || hasReachedLimit}
+            className={`w-full py-6 text-lg font-medium tracking-wide bg-[rgba(var(--color-foreground),1)] text-[rgba(var(--color-background),1)] transition-opacity
+                ${isOutOfStock || hasReachedLimit ? 'opacity-50 cursor-not-allowed hover:opacity-50' : 'hover:opacity-90'}
+            `}
           >
             <ShoppingCart className="w-5 h-5 mr-2" />
-            Add to Cart
+            {isOutOfStock ? "Out of Stock" : hasReachedLimit ? "Limit Reached" : "Add to Cart"}
           </Button>
 
           {/* Additional Info */}

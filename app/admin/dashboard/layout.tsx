@@ -37,7 +37,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     const sidebarItems = [
+        { icon: LayoutDashboard, label: 'Overview', href: '/admin/dashboard' },
         { icon: Package, label: 'Products', href: '/admin/dashboard/products' },
+        { icon: ShoppingBag, label: 'Orders', href: '/admin/dashboard/orders' },
     ];
 
     return (
@@ -107,7 +109,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full text-black">
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
