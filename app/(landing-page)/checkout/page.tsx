@@ -11,6 +11,21 @@ import Link from "next/link";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
+  const [deliveryZones, setDeliveryZones] = useState<any[]>([]);
+  const [selectedZone, setSelectedZone] = useState<any>(null);
+
+  React.useEffect(() => {
+    const fetchZones = async () => {
+      try {
+        const res = await api.get('/delivery-zones');
+        setDeliveryZones(res.data);
+      } catch (error) {
+        console.error('Failed to fetch delivery zones:', error);
+      }
+    };
+    fetchZones();
+  }, []);
+
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -20,19 +35,15 @@ export default function CheckoutPage() {
     postalCode: "",
     country: "",
     phone: "",
-    cardNumber: "",
-    cardName: "",
-    cardExpiry: "",
-    cardCVC: "",
   });
 
   const subtotal = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
-  const tax = subtotal * 0.1;
-  const shipping = 10; // Fixed shipping for now
-  const total = subtotal + tax + shipping;
+
+  const shipping = selectedZone ? parseFloat(selectedZone.price) : 0;
+  const total = subtotal + shipping;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -53,14 +64,21 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
+      if (!selectedZone) {
+        alert("Please select a delivery method");
+        setIsSubmitting(false);
+        return;
+      }
+
       const orderData = {
         ...formData,
         customerName: `${formData.firstName} ${formData.lastName}`,
         items: cart.map(item => ({
           id: item.id,
           quantity: item.quantity,
-          // price sent to backend but backend should re-verify
-        }))
+        })),
+        deliveryZone: selectedZone.name,
+        shippingFee: selectedZone.price
       };
 
       await api.post('/orders', orderData);
@@ -207,58 +225,73 @@ export default function CheckoutPage() {
               </select>
             </div>
 
-            {/* Payment Information */}
+            {/* Delivery Method */}
+            <div className="border border-[rgba(var(--color-foreground),0.1)] rounded-lg p-6 space-y-4">
+              <h2 className="text-xl font-medium text-[rgba(var(--color-foreground),1)]">
+                Delivery Method
+              </h2>
+              <div className="space-y-3">
+                {deliveryZones.map((zone) => (
+                  <label
+                    key={zone.id}
+                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-all ${selectedZone?.id === zone.id
+                      ? "border-[rgba(var(--color-foreground),1)] bg-[rgba(var(--color-foreground),0.05)]"
+                      : "border-[rgba(var(--color-foreground),0.2)] hover:border-[rgba(var(--color-foreground),0.5)]"
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="deliveryZone"
+                        value={zone.id}
+                        checked={selectedZone?.id === zone.id}
+                        onChange={() => setSelectedZone(zone)}
+                        className="w-4 h-4 text-[rgba(var(--color-foreground),1)] focus:ring-[rgba(var(--color-foreground),1)]"
+                      />
+                      <span className="font-medium text-[rgba(var(--color-foreground),1)]">
+                        {zone.name}
+                      </span>
+                    </div>
+                    <span className="font-semibold text-[rgba(var(--color-foreground),1)]">
+                      {formatPrice(zone.price)}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Payment Information - Bank Transfer */}
             <div className="border border-[rgba(var(--color-foreground),0.1)] rounded-lg p-6 space-y-4">
               <div className="flex items-center gap-2 mb-2">
                 <CreditCard className="w-5 h-5 text-[rgba(var(--color-foreground),0.7)]" />
                 <h2 className="text-xl font-medium text-[rgba(var(--color-foreground),1)]">
-                  Payment Information
+                  Payment Method: Bank Transfer
                 </h2>
               </div>
-              <Input
-                type="text"
-                name="cardNumber"
-                placeholder="Card Number"
-                value={formData.cardNumber}
-                onChange={handleInputChange}
-                required
-                maxLength={19}
-                className="border-[rgba(var(--color-foreground),0.2)]"
-              />
-              <Input
-                type="text"
-                name="cardName"
-                placeholder="Name on Card"
-                value={formData.cardName}
-                onChange={handleInputChange}
-                required
-                className="border-[rgba(var(--color-foreground),0.2)]"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  type="text"
-                  name="cardExpiry"
-                  placeholder="MM/YY"
-                  value={formData.cardExpiry}
-                  onChange={handleInputChange}
-                  required
-                  maxLength={5}
-                  className="border-[rgba(var(--color-foreground),0.2)]"
-                />
-                <Input
-                  type="text"
-                  name="cardCVC"
-                  placeholder="CVC"
-                  value={formData.cardCVC}
-                  onChange={handleInputChange}
-                  required
-                  maxLength={3}
-                  className="border-[rgba(var(--color-foreground),0.2)]"
-                />
+
+              <div className="bg-gray-50 p-4 rounded-md border border-[rgba(var(--color-foreground),0.1)] space-y-3">
+                <p className="text-sm text-black">
+                  Please make a transfer to the account below and click "Place Order".
+                </p>
+                <div className="space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium text-black">Bank Name:</span>
+                    <span className="font-semibold text-black">GTBank</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium text-black">Account Name:</span>
+                    <span className="font-semibold text-black">Kalaamatu</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium text-black">Account Number:</span>
+                    <span className="font-mono font-bold text-lg text-black tracking-wider">0123456789</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-[rgba(var(--color-foreground),0.7)]">
+
+              <div className="flex items-center gap-2 text-sm text-[rgba(var(--color-foreground),0.7)] bg-blue-50 p-3 rounded text-blue-700">
                 <Lock className="w-4 h-4" />
-                <span>Your payment information is secure and encrypted</span>
+                <span>Your order will be processed once payment is confirmed.</span>
               </div>
             </div>
           </div>
@@ -290,10 +323,6 @@ export default function CheckoutPage() {
                   <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
-                  <span>Tax</span>
-                  <span>{formatPrice(tax)}</span>
-                </div>
-                <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                   <span>Shipping</span>
                   <span>{formatPrice(shipping)}</span>
                 </div>
@@ -309,7 +338,7 @@ export default function CheckoutPage() {
                 disabled={isSubmitting}
                 className="w-full py-6 text-lg font-medium tracking-wide bg-[rgba(var(--color-foreground),1)] text-[rgba(var(--color-background),1)] hover:opacity-90 transition-opacity"
               >
-                {isSubmitting ? "Processing..." : "Complete Order"}
+                {isSubmitting ? "Processing..." : "Place Order"}
               </Button>
             </div>
           </div>

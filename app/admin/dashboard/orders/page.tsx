@@ -140,7 +140,7 @@ export default function OrdersPage() {
                                             <SelectTrigger className="w-[130px]">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className="bg-white text-black">
                                                 <SelectItem value="pending">Pending</SelectItem>
                                                 <SelectItem value="paid">Paid</SelectItem>
                                                 <SelectItem value="shipped">Shipped</SelectItem>
