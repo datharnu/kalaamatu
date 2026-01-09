@@ -1,4 +1,6 @@
-import { ProductDatas } from "@/app/utils/ProductData";
+
+import { API_URL } from "@/lib/api";
+
 import ProductDetailClient from "./product-detail-client";
 import Link from "next/link";
 
@@ -10,8 +12,17 @@ interface ProductDetailPageProps {
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { id } = await params;
-  const productId = parseInt(id);
-  const product = ProductDatas.find((p) => p.id === productId);
+
+  let product = null;
+
+  try {
+    const res = await fetch(`${API_URL}/products/${id}`, { cache: 'no-store' });
+    if (res.ok) {
+      product = await res.json();
+    }
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+  }
 
   if (!product) {
     return (

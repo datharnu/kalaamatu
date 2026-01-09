@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, CreditCard, Lock } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 
 export default function CheckoutPage() {
@@ -251,7 +252,7 @@ export default function CheckoutPage() {
                       {item.title} × {item.quantity}
                     </span>
                     <span className="text-[rgba(var(--color-foreground),1)]">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -260,20 +261,20 @@ export default function CheckoutPage() {
               <div className="space-y-3 pt-4 border-t border-[rgba(var(--color-foreground),0.1)]">
                 <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)} AUD</span>
+                  <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                   <span>Tax</span>
-                  <span>${tax.toFixed(2)} AUD</span>
+                  <span>{formatPrice(tax)}</span>
                 </div>
                 <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                   <span>Shipping</span>
-                  <span>${shipping.toFixed(2)} AUD</span>
+                  <span>{formatPrice(shipping)}</span>
                 </div>
                 <hr className="border-[rgba(var(--color-foreground),0.1)]" />
                 <div className="flex justify-between text-lg font-semibold text-[rgba(var(--color-foreground),1)]">
                   <span>Total</span>
-                  <span>${total.toFixed(2)} AUD</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
               </div>
 
@@ -290,3 +291,5 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+

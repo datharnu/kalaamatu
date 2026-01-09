@@ -7,10 +7,10 @@ export const navlinks = [
     name: "Shop",
     href: "/shop",
   },
-  {
-    name: "About",
-    href: "/about",
-  },
+  // {
+  //   name: "About",
+  //   href: "/about",
+  // },
   {
     name: "Contact",
     href: "/contact",

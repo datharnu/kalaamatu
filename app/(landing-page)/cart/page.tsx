@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 
 export default function CartPage() {
@@ -77,7 +78,7 @@ export default function CartPage() {
                     {item.title}
                   </Link>
                   <p className="text-[rgba(var(--color-foreground),0.7)] mt-1">
-                    ${item.price.toFixed(2)} AUD
+                    {formatPrice(item.price)}
                   </p>
                 </div>
 
@@ -111,7 +112,7 @@ export default function CartPage() {
 
                   <div className="flex items-center gap-4">
                     <p className="text-lg font-semibold text-[rgba(var(--color-foreground),1)]">
-                      ${(item.price * item.quantity).toFixed(2)} AUD
+                      {formatPrice(item.price * item.quantity)}
                     </p>
                     <button
                       onClick={() => removeFromCart(item.id)}
@@ -149,11 +150,11 @@ export default function CartPage() {
             <div className="space-y-3">
               <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)} AUD</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                 <span>Tax</span>
-                <span>${tax.toFixed(2)} AUD</span>
+                <span>{formatPrice(tax)}</span>
               </div>
               <div className="flex justify-between text-[rgba(var(--color-foreground),0.7)]">
                 <span>Shipping</span>
@@ -162,7 +163,7 @@ export default function CartPage() {
               <hr className="border-[rgba(var(--color-foreground),0.1)]" />
               <div className="flex justify-between text-lg font-semibold text-[rgba(var(--color-foreground),1)]">
                 <span>Total</span>
-                <span>${total.toFixed(2)} AUD</span>
+                <span>{formatPrice(total)}</span>
               </div>
             </div>
 
@@ -185,3 +186,5 @@ export default function CartPage() {
     </div>
   );
 }
+
+

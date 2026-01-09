@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, ShoppingCart, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { StaticImageData } from "next/image";
+import { formatPrice } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface Product {
   id: number;
@@ -13,8 +15,8 @@ interface Product {
   price: string;
   description: string;
   category: string;
-  image: StaticImageData;
-  additionalImages: StaticImageData[];
+  image: string;
+  additionalImages: string[];
 }
 
 interface ProductDetailClientProps {
@@ -36,7 +38,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         title: product.title,
         price: parseFloat(product.price),
         image: product.image,
+        category: product.category,
       });
+      toast.success(`${product.title} added to cart`);
     }
   };
 
@@ -82,11 +86,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <button
                   key={index}
                   onClick={() => setSelectedImageIndex(index)}
-                  className={`relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedImageIndex === index
-                      ? "border-[rgba(var(--color-foreground),1)]"
-                      : "border-transparent opacity-60 hover:opacity-100"
-                  }`}
+                  className={`relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 transition-all ${selectedImageIndex === index
+                    ? "border-[rgba(var(--color-foreground),1)]"
+                    : "border-transparent opacity-60 hover:opacity-100"
+                    }`}
                 >
                   <Image
                     src={image}
@@ -107,7 +110,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               {product.title}
             </h1>
             <p className="text-2xl md:text-3xl font-semibold text-[rgba(var(--color-foreground),1)]">
-              ${product.price} <span className="text-lg">AUD</span>
+              {formatPrice(product.price)}
             </p>
           </div>
 

@@ -3,37 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --color-background: 255, 251, 249;
-  --gradient-background: #fffbf9;
-  --color-foreground: 137, 97, 95;
-  --color-background-contrast: 255, 166, 122;
-  --color-shadow: 18, 18, 18;
-  --color-button: 18, 18, 18;
-  --color-button-text: 255, 255, 255;
-  --color-secondary-button: 255, 251, 249;
-  --color-secondary-button-text: 18, 18, 18;
-  --color-link: 18, 18, 18;
-  --color-badge-foreground: 137, 97, 95;
-  --color-badge-background: 255, 251, 249;
-  --color-badge-border: 137, 97, 95;
-  --payment-terms-background-color: rgb(255 251 249);
+  --color-background: 14, 13, 11;
+  /* Charcoal Black */
+  --gradient-background: #0E0D0B;
+  --color-foreground: 242, 193, 43;
+  /* Rich Gold */
+  --color-background-contrast: 242, 193, 43;
+  /* Rich Gold */
+  --color-shadow: 255, 255, 255;
+  /* White shadow (will be used with low opacity) */
+  --color-button: 242, 193, 43;
+  /* Rich Gold */
+  --color-button-text: 14, 13, 11;
+  /* Charcoal Black */
+  --color-secondary-button: 45, 45, 45;
+  /* Dark Gray for secondary bgs */
+  --color-secondary-button-text: 242, 193, 43;
+  /* Rich Gold */
+  --color-link: 242, 193, 43;
+  /* Rich Gold */
+  --color-badge-foreground: 242, 193, 43;
+  /* Rich Gold */
+  --color-badge-background: 45, 45, 45;
+  /* Dark Gray badge bg */
+  --color-badge-border: 242, 193, 43;
+  /* Rich Gold border */
+  --payment-terms-background-color: rgb(14 13 11);
 }
 
 .color-scheme-1 {
-  --color-background: 255, 251, 249;
-  --gradient-background: #fffbf9;
-  --color-foreground: 137, 97, 95;
-  --color-background-contrast: 255, 166, 122;
-  --color-shadow: 18, 18, 18;
-  --color-button: 18, 18, 18;
-  --color-button-text: 255, 255, 255;
-  --color-secondary-button: 255, 251, 249;
-  --color-secondary-button-text: 18, 18, 18;
-  --color-link: 18, 18, 18;
-  --color-badge-foreground: 137, 97, 95;
-  --color-badge-background: 255, 251, 249;
-  --color-badge-border: 137, 97, 95;
-  --payment-terms-background-color: rgb(255 251 249);
+  --color-background: 14, 13, 11;
+  /* Charcoal Black */
+  --gradient-background: #0E0D0B;
+  --color-foreground: 242, 193, 43;
+  /* Rich Gold */
+  --color-background-contrast: 242, 193, 43;
+  /* Rich Gold */
+  --color-shadow: 255, 255, 255;
+  --color-button: 242, 193, 43;
+  /* Rich Gold */
+  --color-button-text: 14, 13, 11;
+  /* Charcoal Black */
+  --color-secondary-button: 45, 45, 45;
+  /* Dark Gray */
+  --color-secondary-button-text: 242, 193, 43;
+  /* Rich Gold */
+  --color-link: 242, 193, 43;
+  /* Rich Gold */
+  --color-badge-foreground: 242, 193, 43;
+  /* Rich Gold */
+  --color-badge-background: 45, 45, 45;
+  --color-badge-border: 242, 193, 43;
+  /* Rich Gold */
+  --payment-terms-background-color: rgb(14 13 11);
 }
 
 .gradient {

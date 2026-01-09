@@ -1,12 +1,11 @@
-import { StaticImageData } from "next/image";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { ProductDatas } from "../utils/ProductData";
 
 interface Product {
   id: number;
   title: string;
   price: number;
-  image: StaticImageData;
+  image: string;
+  category?: string;
 }
 
 interface CartItem extends Product {
@@ -26,25 +25,12 @@ const CART_STORAGE_KEY = "kalaamatu_cart";
 // Helper functions for localStorage
 const loadCartFromStorage = (): CartItem[] => {
   if (typeof window === "undefined") return [];
-  
+
   try {
     const stored = localStorage.getItem(CART_STORAGE_KEY);
     if (!stored) return [];
-    
-    const cartData = JSON.parse(stored);
-    // Reconstruct cart items from stored IDs and quantities
-    return cartData.map((item: { id: number; quantity: number }) => {
-      const product = ProductDatas.find((p) => p.id === item.id);
-      if (!product) return null;
-      
-      return {
-        id: product.id,
-        title: product.title,
-        price: parseFloat(product.price),
-        image: product.image,
-        quantity: item.quantity,
-      };
-    }).filter((item: CartItem | null): item is CartItem => item !== null);
+
+    return JSON.parse(stored);
   } catch (error) {
     console.error("Error loading cart from localStorage:", error);
     return [];
@@ -53,14 +39,9 @@ const loadCartFromStorage = (): CartItem[] => {
 
 const saveCartToStorage = (cart: CartItem[]) => {
   if (typeof window === "undefined") return;
-  
+
   try {
-    // Store only IDs and quantities (not the full product data with images)
-    const cartData = cart.map((item) => ({
-      id: item.id,
-      quantity: item.quantity,
-    }));
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartData));
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   } catch (error) {
     console.error("Error saving cart to localStorage:", error);
   }

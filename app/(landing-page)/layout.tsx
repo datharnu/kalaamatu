@@ -1,5 +1,7 @@
 "use client";
 import Navbar from "@/components/shared/navbar";
+import Footer from "@/components/shared/footer";
+import Announcement from "./home/components/announcement";
 import React, { useState } from "react";
 import MiniChatbox from "./home/components/minichatbox";
 
@@ -21,7 +23,10 @@ export default function LandingPagelayout({
   return (
     <>
       <main className="gradient gradient min-h-screen w-full pb-10">
+        <Announcement />
+        <Navbar />
         {children}
+        <Footer />
       </main>
       <div className="fixed bottom-10 right-10">
         <a

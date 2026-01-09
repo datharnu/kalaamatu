@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/components/shared/footer";
-import Navbar from "@/components/shared/navbar";
-import Announcement from "./(landing-page)/home/components/announcement";
+import "./globals.css";
 import { Providers } from "./providers";
 
 const geistSans = localFont({
@@ -22,6 +20,8 @@ export const metadata: Metadata = {
   description: "Your one stop for clothes and bags",
 };
 
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,11 +37,9 @@ export default function RootLayout({
         }}
       >
         <Providers>
-          <Announcement />
-          <Navbar />
           {children}
-          <Footer />
         </Providers>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

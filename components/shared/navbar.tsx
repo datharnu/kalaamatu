@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import NavbarIcon from "../icons/navbaricon";
-import SearchIcon from "../icons/searchicon";
 import CartIcon from "../icons/carticon";
 import AccountIcon from "../icons/accounticon";
 import { navlinks } from "@/app/utils/Navlinks";
@@ -57,10 +56,9 @@ export default function Navbar() {
                     hover:text-[rgba(var(--color-foreground),1)]
                     group
                     py-2
-                    ${
-                      activeLink === item.name
-                        ? "text-[rgba(var(--color-foreground),1)]"
-                        : ""
+                    ${activeLink === item.name
+                      ? "text-[rgba(var(--color-foreground),1)]"
+                      : ""
                     }
                   `}
                 >
@@ -86,7 +84,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
-            <SearchIcon className="size-5" />
             <AccountIcon className="size-5 hidden md:block" />
             <Link href="/cart" className="relative">
               <CartIcon className="size-10" />
@@ -136,10 +133,9 @@ export default function Navbar() {
                   text-[rgba(var(--color-foreground),1)]
                   hover:text-[rgba(var(--color-foreground),0.75)]
                   
-                  ${
-                    activeLink === item.name
-                      ? "text-[rgba(var(--color-foreground),1)] bg-[#e1d9d9] bg-opacity-15"
-                      : ""
+                  ${activeLink === item.name
+                    ? "text-[rgba(var(--color-foreground),1)] bg-[#e1d9d9] bg-opacity-15"
+                    : ""
                   }
                 `}
               >
