@@ -187,7 +187,7 @@ export default function ProductModal({ isOpen, onClose, product, onSuccess }: Pr
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[900px] bg-white">
+            <DialogContent className="sm:max-w-[900px] bg-white max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{product?.id ? 'Edit Product' : 'Add New Product'}</DialogTitle>
                     <DialogDescription>

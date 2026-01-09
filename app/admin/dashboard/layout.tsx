@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Package, LogOut, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, Package, LogOut, ShoppingBag, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
@@ -21,29 +22,55 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
     }, [router]);
 
+    // Close sidebar on route change (mobile)
+    useEffect(() => {
+        setIsSidebarOpen(false);
+    }, [pathname]);
+
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
         router.push('/admin/login');
     };
 
     if (!isAuthenticated) {
-        return null; // Or a loading spinner
+        return null;
     }
 
     const sidebarItems = [
         { icon: Package, label: 'Products', href: '/admin/dashboard/products' },
-        // Add more items here as needed
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+            {/* Mobile Header */}
+            <div className="md:hidden bg-white border-b border-gray-200 p-4 flex items-center justify-between sticky top-0 z-30">
+                <div className="flex items-center">
+                    <ShoppingBag className="w-6 h-6 mr-2 text-indigo-600" />
+                    <span className="font-bold text-xl text-gray-900">Admin</span>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </Button>
+            </div>
+
+            {/* Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
-            <motion.aside
-                initial={{ x: -250 }}
-                animate={{ x: 0 }}
-                className="w-64 bg-white border-r border-gray-200 fixed h-full z-10"
+            <aside
+                className={`
+                    fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 
+                    transition-transform duration-300 ease-in-out
+                    md:translate-x-0 md:static md:h-screen
+                    ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                `}
             >
-                <div className="h-16 flex items-center px-6 border-b border-gray-200">
+                <div className="h-16 hidden md:flex items-center px-6 border-b border-gray-200">
                     <ShoppingBag className="w-6 h-6 mr-2 text-indigo-600" />
                     <span className="font-bold text-xl text-gray-900">Admin</span>
                 </div>
@@ -56,8 +83,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         return (
                             <Link key={item.href} href={item.href}>
                                 <div className={`flex items-center px-4 py-3 rounded-md transition-colors ${isActive
-                                        ? 'bg-indigo-50 text-indigo-600'
-                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    ? 'bg-indigo-50 text-indigo-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`}>
                                     <Icon className="w-5 h-5 mr-3" />
                                     <span className="font-medium">{item.label}</span>
@@ -77,10 +104,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         Logout
                     </Button>
                 </div>
-            </motion.aside>
+            </aside>
 
             {/* Main Content */}
-            <main className="flex-1 ml-64 p-8">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
