@@ -2,6 +2,10 @@ import axios from 'axios';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:2114/api';
 
+if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
+    console.warn('WARNING: NEXT_PUBLIC_API_URL is not set in production environment. Falling back to localhost.');
+}
+
 const api = axios.create({
     baseURL: API_URL,
     headers: {
